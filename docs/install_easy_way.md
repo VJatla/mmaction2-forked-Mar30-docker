@@ -22,7 +22,7 @@ tar -xvzf <location of home.tar.gz>
 2. Make sure that you mount appropriate directories using `-v` flag.
 3. Please set your time zone correctly
 ```bash
-sudo docker run --name mmaction2_mar30_2021 --gpus all --shm-size 8G -it -v <docker home directory>/mmacton2_mar30_2021:/home venkatesh369/mmaction2_mar30_2021:light2
+sudo docker run --name mmaction2_mar30_2021 --gpus all --shm-size 8G -it -v <docker home directory>/mmaction2_mar30_2021:/home venkatesh369/mmaction2_mar30_2021:light2
 ```
 ## 4. Set time zone in container (optional, recommended)
 ```bash
