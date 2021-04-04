@@ -28,13 +28,12 @@ sudo docker run --name mmaction2_mar30_2021 --gpus all --shm-size 8G -it -v <doc
 ```bash
 dpkg-reconfigure tzdata
 ```
-
-```bash
-su mma2
-cd ~/mmaction2
-```
 ## 4. Test script
 ```bash
+# Change user to mma2
+su mma2
+cd ~/mmaction2
+
 # From /home/mma2/mmaction2 folder, run
 python demo/demo.py configs/recognition/tsn/tsn_r50_video_inference_1x1x3_100e_kinetics400_rgb.py https://download.openmmlab.com/mmaction/recognition/tsn/tsn_r50_1x1x3_100e_kinetics400_rgb/tsn_r50_1x1x3_100e_kinetics400_rgb_20200614-e508be42.pth demo/demo.mp4 demo/label_map_k400.txt --out-filename demo/demo_out.mp4
 ```
