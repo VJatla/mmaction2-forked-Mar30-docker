@@ -1,4 +1,8 @@
 # mmaction2-forked-Mar30-docker
+## Collaborators
+1. Ugesh Egala (https://github.com/ugeshe)
+2. Sravani Teeparthi (https://github.com/SravaniTeeparthi29)
+## Information
 The following repository contains dcumenataion on how to installing and use
 [mmaciton2](https://github.com/open-mmlab/mmaction2) library by *open-mmlab*. The
 instructions are valid to this [fork](https://github.com/VJatla/mmaction2-forked-Mar30)

@@ -4,7 +4,7 @@
 2. nvidia-docker
 ## 1. Pull docker image
 ```bash
-docker pull venkatesh369/mmaction2_mar30_2021:light2
+sudo docker pull venkatesh369/mmaction2_mar30_2021:light2
 ```
 ## 2. Download home directory
 ```bash
