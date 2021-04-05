@@ -31,7 +31,7 @@ git clone https://github.com/VJatla/mmaction2-forked-Mar30-docker.git ~/mmaction
 ```
 ## 3. Creating video list for training
 ```bash
-
+cd
 ```
 ## 4. Training
 ```bash
