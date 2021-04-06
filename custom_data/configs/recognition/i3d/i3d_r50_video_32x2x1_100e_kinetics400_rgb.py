@@ -81,4 +81,4 @@ data = dict(
         pipeline=test_pipeline))
 
 # runtime settings
-work_dir = '/home/mma2/mmaction2/workdir'
+work_dir = ''

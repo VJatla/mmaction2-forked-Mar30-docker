@@ -38,5 +38,5 @@ python generate_videos_filelist.py ~/mmaction2/data/ucf101_3_classes avi ~/mmact
 ## 4. Training (single GPU)
 ```bash
 cd ~/mmaction2
-python tools/train.py ${CONFIG_FILE} [optional arguments]
+python tools/train.py configs/recognition/i3d/i3d_r50_32x2x1_100e_kinetics400_rgb.py --work-dir work_dirs/i3d_r50_32x2x1_100e_kinetics400_rgb --validate --seed 0 --deterministic
 ```
