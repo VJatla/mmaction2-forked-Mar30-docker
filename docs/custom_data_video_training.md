@@ -30,10 +30,13 @@ To process custom dataset, please clone the following git repo to mma2 user home
 git clone https://github.com/VJatla/mmaction2-forked-Mar30-docker.git ~/mmaction2-forked-Mar30-docker
 ```
 ## 3. Creating video list for training
+This creates a `train.txt` file having class labels and relative video path.
 ```bash
-cd
+cd ~/mmaction2-forked-Mar30-docker/custom_data/tools/data
+python generate_videos_filelist.py ~/mmaction2/data/ucf101_3_classes avi ~/mmaction2/data/ucf101_3_classes/train.txt
 ```
-## 4. Training
+## 4. Training (single GPU)
 ```bash
-
+cd ~/mmaction2
+python tools/train.py ${CONFIG_FILE} [optional arguments]
 ```
