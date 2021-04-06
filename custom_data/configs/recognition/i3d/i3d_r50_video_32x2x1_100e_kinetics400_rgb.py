@@ -81,4 +81,5 @@ data = dict(
         pipeline=test_pipeline))
 
 # runtime settings
+total_epochs = 15
 work_dir = ''
