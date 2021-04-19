@@ -1,6 +1,8 @@
 """
 Description
 -----------
+Generates a text file containing RawFrameDataset information as required by
+mmaction2 library.
 
 Example
 -------
@@ -16,8 +18,9 @@ from argparse import RawTextHelpFormatter
 
 
 description = ("""
-Description
------------
+Description:
+  Generates a text file containing RawFrameDataset information as required by
+  mmaction2 library.
 """)
 
 
@@ -29,14 +32,14 @@ def _arguments():
                                         formatter_class=RawTextHelpFormatter)
 
     # Adding arguments
-    args_inst.add_argument("rdir", type=str, help=("Root directory having videos and annotations"))
-    args_inst.add_argument("vext", type=str, help=("Video extension. Typically mp4 or avi"))
+    args_inst.add_argument("rfrm_dir", type=str, help=("Directory containing raw frames"))
+    args_inst.add_argument("ctxt", type=str, help=("Text file containing class indexes"))
     args_inst.add_argument("otxt", type=str, help=("output text file path"))
     args = args_inst.parse_args()
 
     # Crate a dictionary having arguments and their values
-    args_dict = {'rdir': args.rdir,
-                 'vext': args.vext,
+    args_dict = {'rfrm_dir': args.rfrm_dir,
+                 'ctxt': args.ctxt,
                  'otxt': args.otxt}
 
     # Return arguments as dictionary
@@ -111,14 +114,12 @@ def get_files_with_kws(loc, kws):
 def main():
     """Main function."""
     argd = _arguments()
-    rdir = argd['rdir']
-    vext = argd['vext']
+    rawframes_dir = argd['rfrm_dir']
+    annotations_file = argd['ctxt']
     otxt = argd['otxt']
 
-    # Check for annotations directory and videos directory at rdir
-    videos_dir      = f"{rdir}/videos"
-    annotations_file = f"{rdir}/annotations/classInd.txt"
-    check_if_dir_exists(videos_dir)
+    # Check for annotations and rawframes directories
+    check_if_dir_exists(rawframes_dir)
     check_if_file_exists(annotations_file)
 
     # Load annotations as dictionary
@@ -132,7 +133,7 @@ def main():
         if len(ann) > 2:
             raise Exception(f"Annotation is not valid {ann}")
         ann_idx, ann_label = ann
-        ann_idxs  += [int(ann_idx)]
+        ann_idxs  += [int(ann_idx) - 1] #  index starts from 0
         ann_labels += [ann_label]
 
     # If maximum classes > number of entries then we have a problem
@@ -143,32 +144,31 @@ def main():
             f" while number of classes are {len(ann_class)}"
         )
 
-    # Get full paths having videos
-    vpaths = get_files_with_kws(videos_dir, [f".{vext}"])
+    # Loop through each class label and get rawframe instance
+    # names
+    rlist = []
+    for i, ann_label in enumerate(ann_labels):
+        ann_label_fpth = f"{rawframes_dir}/{ann_label}"
+        check_if_dir_exists(ann_label_fpth)
 
-    # Create a list from vlist having `Classname/videoname` entries
-    vlist = []
-    for vpath in vpaths:
-        vclass = vpath.split('/')[-2]
-        vname = vpath.split('/')[-1]
+        rawframe_dirs = os.listdir(ann_label_fpth)
 
-        # Class index
-        class_idx = ann_labels.index(vclass)
-        
-        vlist += [f"{vclass}/{vname} {class_idx}"]
+        for crawframe_dir in rawframe_dirs:
+            cdir = f"{ann_label_fpth}/{crawframe_dir}"
 
+            imgs = get_files_with_kws(cdir, ["img_"])
+            nfrms = len(imgs)
 
+            rlist += [
+                f"{ann_label}/{crawframe_dir} {nfrms} {ann_idxs[i]}"
+            ]
+            
     # Shuffle
-    random.shuffle(vlist)
+    random.shuffle(rlist)
     
     # Write to text file
     with open(otxt, 'w') as f:
-        f.writelines("%s\n" %v for v in vlist)
-
-    
-    
-    
-
+        f.writelines("%s\n" %r for r in rlist)
 
 # Execution starts here
 if __name__ == "__main__":
